@@ -55,10 +55,11 @@ controls.enableZoom = false; // Disable zoom
 controls.autoRotate = true;
 controls.autoRotateSpeed = 2;
 
-// Load 3D Model with Draco compression support
+// Load 3D Model with Draco compression support (optimized)
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
-dracoLoader.setDecoderConfig({ type: 'js' });
+dracoLoader.setDecoderConfig({ type: 'wasm' }); // Use WASM for faster decoding
+dracoLoader.preload(); // Preload the decoder
 
 const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
