@@ -1,11 +1,10 @@
 [build]
   publish = "."
 
-# Enable compression for large files
+# Cache headers for assets (Netlify handles compression automatically)
 [[headers]]
   for = "/*.glb"
   [headers.values]
-    Content-Encoding = "gzip"
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
