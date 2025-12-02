@@ -64,10 +64,20 @@ const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
 let model;
 
+// Add loading spinner
+const spinner = document.createElement('div');
+spinner.className = 'loading-spinner';
+canvas.parentElement.appendChild(spinner);
+
 loader.load(
     'dinosaur.glb',
     (gltf) => {
         model = gltf.scene;
+        
+        // Remove spinner when loaded
+        if (spinner.parentElement) {
+            spinner.parentElement.removeChild(spinner);
+        }
         
         // Center and scale the model properly
         const box = new THREE.Box3().setFromObject(model);
