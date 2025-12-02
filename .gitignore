@@ -3,3 +3,4 @@ node_modules/
 *.log
 .env
 .netlify/
+dinosaur-original.glb

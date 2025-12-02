@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // ===== 3D Model Setup =====
@@ -54,8 +55,13 @@ controls.enableZoom = false; // Disable zoom
 controls.autoRotate = true;
 controls.autoRotateSpeed = 2;
 
-// Load 3D Model
+// Load 3D Model with Draco compression support
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+dracoLoader.setDecoderConfig({ type: 'js' });
+
 const loader = new GLTFLoader();
+loader.setDRACOLoader(dracoLoader);
 let model;
 
 // Add loading indicator
