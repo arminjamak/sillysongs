@@ -55,11 +55,10 @@ controls.enableZoom = false; // Disable zoom
 controls.autoRotate = true;
 controls.autoRotateSpeed = 2;
 
-// Load 3D Model with Draco compression support (optimized)
+// Load 3D Model with Draco compression support
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
-dracoLoader.setDecoderConfig({ type: 'wasm' }); // Use WASM for faster decoding
-dracoLoader.preload(); // Preload the decoder
+dracoLoader.setDecoderConfig({ type: 'js' }); // Use JS decoder for better compatibility
 
 const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
@@ -112,6 +111,23 @@ loader.load(
     },
     (error) => {
         console.error('❌ Error loading model:', error);
+        
+        // Remove spinner on error
+        if (spinner.parentElement) {
+            spinner.parentElement.removeChild(spinner);
+        }
+        
+        // Show error message
+        const errorMsg = document.createElement('div');
+        errorMsg.style.position = 'absolute';
+        errorMsg.style.top = '50%';
+        errorMsg.style.left = '50%';
+        errorMsg.style.transform = 'translate(-50%, -50%)';
+        errorMsg.style.color = '#ff6b6b';
+        errorMsg.style.fontSize = '16px';
+        errorMsg.style.textAlign = 'center';
+        errorMsg.textContent = 'Failed to load 3D model';
+        canvas.parentElement.appendChild(errorMsg);
         
         // Try to provide helpful error message
         if (error.message) {
