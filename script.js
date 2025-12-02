@@ -64,26 +64,10 @@ const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
 let model;
 
-// Add loading indicator
-const loadingText = document.createElement('div');
-loadingText.style.position = 'absolute';
-loadingText.style.top = '50%';
-loadingText.style.left = '50%';
-loadingText.style.transform = 'translate(-50%, -50%)';
-loadingText.style.fontSize = '20px';
-loadingText.style.color = '#666';
-loadingText.textContent = 'Loading 3D model...';
-canvas.parentElement.appendChild(loadingText);
-
 loader.load(
     'dinosaur.glb',
     (gltf) => {
         model = gltf.scene;
-        
-        // Remove loading text
-        if (loadingText.parentElement) {
-            loadingText.parentElement.removeChild(loadingText);
-        }
         
         // Center and scale the model properly
         const box = new THREE.Box3().setFromObject(model);
@@ -114,12 +98,9 @@ loader.load(
     (progress) => {
         const percent = (progress.loaded / progress.total * 100).toFixed(0);
         console.log('Loading model:', percent + '%');
-        loadingText.textContent = `Loading 3D model... ${percent}%`;
     },
     (error) => {
         console.error('❌ Error loading model:', error);
-        loadingText.textContent = 'Failed to load 3D model';
-        loadingText.style.color = '#ff6b6b';
         
         // Try to provide helpful error message
         if (error.message) {
